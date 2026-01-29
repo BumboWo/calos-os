@@ -5,7 +5,9 @@
 
 	"modules-left": [
 		"group/theme_switcher",
+  //  "custom/left_div#2",
 		"hyprland/workspaces",
+	//	"custom/right_div#5",
 		"hyprland/window"
 	],
 	"modules-center": [
@@ -29,18 +31,28 @@
 	],
 	"modules-right": [
 		"mpris",
+		"custom/left_div#2",
     "pulseaudio",
     "hyprland/submap",
     "custom/screenrecording-indicator",
     "network",
 		"bluetooth",
 		"custom/system_update",
+    "custom/right_div#5",
 		"custom/power_menu"
 	],
 
 	/*-------------
 		options
 	-------------*/
+
+"tray": {
+    "icon-size": 18,
+    "spacing": 11,
+    "icons": {
+
+    }
+},
 
 	"layer": "bottom",
 	// "output":
@@ -167,7 +179,7 @@
     "tooltip": true,
     "max-length": 9,
     "min-length": 9,
-    "on-click": "alacritty --class=Impala --hold -e dust",
+    "on-click": "alacritty --class=Impala --hold -e sudo dust 2> /dev/null",
     "tooltip-format": "{used} out of {total} used."
 },
 
@@ -328,8 +340,8 @@
 
 "hyprland/submap": {
 	"format": "󰊴",
-  "min-length": 4,
-	"max-length": 4,
+  "min-length": 2,
+	"max-length": 2,
   "justify": "center",
   "on-click": "hyprctl dispatch submap",
   "tooltip": true,
@@ -483,7 +495,9 @@
 	"custom/power_menu": {
 		"format": "\uf359",
 		"on-click": "alacritty --class=About --hold -e fastfetch -c ~/.config/fastfetch/config-small.jsonc",
-		"tooltip": false
+		"tooltip": false,
+    "min-length": 2,
+		"max-length": 2
 	},
 
     "custom/screenrecording-indicator": {
