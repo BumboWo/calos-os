@@ -15,7 +15,7 @@ tl;dr its dotfiles baby
 
 ### Who is calOS for?
 
-CalOS is directed to primarily desktop users who have some familiarity with Arch Linux and wanted to try their hand at Hyprland. It ships with defaults that are already very gaming-friendly (Steam especially) with a high amount of configurability. Productivity is not the main goal, functionality is. If you use your desktop PC as a glorified web browser, gaming machine or social outlet, calOS is for you. You can always add on whatever else you like, but at its base default configuration, calOS is simply a really nice Hyprland skin designed to be as bare as possible so you can add your own magic. **This is essentially a starter kit for your foray into Hyprland.**
+CalOS is directed to primarily desktop users who have some familiarity with Arch Linux and wanted to try their hand at Hyprland. It ships with very gaming-friendly defaults (Steam especially) with a high amount of configurability. Productivity is not the main goal, functionality is. If you use your desktop PC as a glorified web browser, gaming machine or social outlet, calOS is for you. You can always add on whatever else you like, but at its base default configuration, calOS is simply a really nice Hyprland skin designed to be as bare as possible so you can add your own flair. **This is essentially a starter kit for your foray into Hyprland.**
 
 ## Overview
 
@@ -36,29 +36,38 @@ CalOS is directed to primarily desktop users who have some familiarity with Arch
  + N will toggle hyprsunset (bluelight filter go to sleep).
  + W will toggle waybar on/off.
  + C shows your clipboard history (clipse).
- + B brings up the Bluetooth menu (bluetui).
+ + B changes your backgroun.
  + S launches walker's dmenu, specifically for power options.
  + I shows internet settings (impala).
  + T is your theme menu. Refer to the style section below.
 ```
 * `SUPER + SHIFT` are the browser-based keybinds. Refer to the keybindings.conf file in your ~/.config/hypr folder to easily change them. By default they open up popular webpages.
-* Gaming friendly. Look into the `games.conf` file in your hyprland config folder to see all features. Includes a gaming submap bound to `Super + CTRL + G`, a special gaming workspace mode and support for steam games.
+* Gaming friendly. Check out the `games.conf` file in your hyprland config folder to see all features. Notable features include a toggle for `game mode` that enables various features such as keybind disables (so you don't have to worry about launching unwanted keybinds while gaming) abd discord pass-through for push to talk globally. Defaults for launchers/steam are already included as well as a special workspace for games (`SUPER + G`).
 * A highly configurable systemd service that launches on your **first terminal only** each login. Want to run certain startup scripts/display your cringe-inducing fastfetch configuration on the first terminal? Now you can! Once the first terminal launches a service begins that prevents it from launching again afterwards. 
 
 
 ### Style
 
-Regardless of how you feel about Omarchy, most of us can agree that it does look pretty. CalOS builds off of those themes and extends them into multiple facets of the operating system. Many, many, many (autistic) hours were spent tweaking each theme CalOS ships with to compliment the entire OS. Your waybar, audio visualizer, terminal and system monitoring tools will all change based on the theme you're feeling. This took so long you son of a bitch you better use this feature
+<details>
+<summary>Sexy Theme Switching Example</summary>
+
+https://github.com/user-attachments/assets/07587456-a2ed-4ae3-8ec3-8985569445b8
+
+</details>
+
+Many, many, many (autistic) hours were spent tweaking each theme CalOS ships with to compliment the entire OS. Your waybar, audio visualizer, terminal and system monitoring tools will all change based on the theme you're feeling. This took so long you son of a bitch you better use this feature
 
 <p align="center">
-<img width="3440" height="1440" alt="image" src="https://github.com/user-attachments/assets/9bb5831b-fa81-4821-8e5d-cc677223b05d" />
-<img width="3440" height="1440" alt="image" src="https://github.com/user-attachments/assets/b996788c-5c43-4ae9-bfcf-8b79878e60f2" />
-<img width="3440" height="1440" alt="image" src="https://github.com/user-attachments/assets/36209a31-c465-4309-b622-0611046fcfd4" />
+<img width="3440" height="1440" alt="image" src="https://github.com/user-attachments/assets/6b212088-7e7b-4a73-aea7-413f2f004816" />
+<img width="3440" height="1440" alt="image" src="https://github.com/user-attachments/assets/c4a07c54-fd81-4713-b5a3-f6bbe4f7a10a" />
+<img width="3440" height="1440" alt="image" src="https://github.com/user-attachments/assets/e0c7e999-cfa9-46d4-84dd-7ba250ae107f" />
 </p>
+
+
 
 This is a pretty decent spot to talk about how to interact with the operating system as a whole.
   - Workspace 1 is always active, even if it's blank (this allows you to scroll through it even if there are no windows currently active).
-  - Workspace 2 deals with system interaction. Your btop++ lives here, as does an interactive terminal. CAVA (your audio visualizer) and cmus (tui-based music player) are here.
+  - Workspace 2 deals with system interaction. Your btop++ lives here, as does an interactive terminal. CAVA (your audio visualizer) and cmus (tui-based music player) included.
   - Workspace 3 is your gaming stuff. Discord. Steam.
   - Workspace 4 and 5 are empty by default. Unlike workspace 1, these are de-activated until you switch to them.
   - User SUPER + 1, 2, 3, etc. to switch to a specific workspace. Hold SUPER + SHIFT + [NUMBER] to move the current active window to [NUMBER] workspace.
@@ -68,7 +77,6 @@ This is a pretty decent spot to talk about how to interact with the operating sy
 Trying to distance itself from various *opinionated* setups, calOS ships with as few defaults as possible. These include: Firefox (web browser), Alacritty (terminal), Steam (if chosen by the installer), Neovim (with customized lazygit) and Yazi (file manager).
 * calOS utilizes sensible, lightweight defaults, with as little dependencies as possible. These include pqiv (image viewer, full yazi compatability), clipse (clipboard history), zoxide (`cd` upgrade), Pinta (simple image editor), cmus (terminal-based music player) and various TUI applications to manage system settings (bluetui/impala).
 * **Open your system settings (SUPER + ESCAPE) and navigate to System -> Packages to see what is installed.** Remove whatever you dislike from there.
-* There is a prompt at the very end of the install that asks you if you would like to install Steam. As the installer already enables multilib repositories it is recommended to do so (only if you want Steam, of course). 
 
 # Installation and Configuration
 
@@ -101,4 +109,4 @@ Then `cd` into /calos/ and run `./install.sh.` Wow crazy.
 
 ## Why Paru?
 
-* Why do you care so much??? Paru is significantly faster than yay as well as allowing you to view package builds in your terminal. Yay is much easier to type out on the terminal, sure, but feature wise paru is just better. Stop being scared of new things and just try it. You shouldn't even be downloading things from the AUR you dirty person. Actually it broke while writing this but uh it works now I guess.
+* its better just try it don't be a bitch
