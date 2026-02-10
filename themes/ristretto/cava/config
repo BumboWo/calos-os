@@ -281,6 +281,7 @@
 ; 4 = 1
 ; 5 = 1 # treble
 
+
 [color]
 
 # Colors can be one of seven predefined: black, blue, cyan, green, magenta, red, white, yellow.

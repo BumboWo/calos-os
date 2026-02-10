@@ -1,3 +1,8 @@
+/* Vague theme for Waybar
+ * Based on https://github.com/vague2k/vague.nvim
+ * License: MIT
+ */
+
 @define-color foreground #cdcdcd;
 @define-color background #141415;
 @define-color accent #D2DAE3;
@@ -7,3 +12,4 @@
 @define-color time #767d85;
 @define-color date #4b525a;
 @define-color tray #252b32;
+

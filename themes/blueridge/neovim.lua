@@ -1,3 +1,6 @@
+-- Blueridge Dark Theme for Neovim
+-- Mountain-inspired colorscheme with temple aesthetics
+
 return {
 	{
 		"shaunsingh/nord.nvim",
