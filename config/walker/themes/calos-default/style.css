@@ -1,4 +1,4 @@
-@import "../../../calos/current/theme/walker.css";
+@import "/home/arthur/.config/calos/current/theme/walker.css";
 
 * {
   all: unset;
@@ -23,10 +23,11 @@ scrollbar {
 }
 
 .box-wrapper {
-  background: alpha(@base, 0.95);
-  padding: 20px;
+  background: alpha(@base, 0.89);
+  padding: 10px;
   border: 2px solid @border;
   border-radius: 10px;
+  margin: 0;
 }
 
 .preview-box {
@@ -38,6 +39,10 @@ scrollbar {
 .search-container {
   background: @base;
   padding: 10px;
+  margin-top: 5px;
+  margin-left: 5px;
+  margin-right: 5px;
+  margin-bottom: 5px;
   border: 0.5px solid @border;
   border-radius: 10px;
 }
@@ -129,11 +134,6 @@ child:selected .item-box * {
   opacity: 0.5;
 }
 
-.keybind-button:hover {
-  opacity: 0.75;
-  cursor: pointer;
-}
-
 .keybind-bind {
   text-transform: lowercase;
   opacity: 0.35;
@@ -153,4 +153,43 @@ child:selected .item-box * {
 
 .preview {
   background: @background;
+}
+
+child:hover .item-box,
+child:selected .item-box {
+  background: linear-gradient(90deg, alpha(@accent, 0.2), transparent 100%);
+  border-left: 2px solid alpha(@accent, 1);
+  transform: translateX(4px);
+  transition:
+    background 150ms cubic-bezier(0.25, 0.8, 0.25, 1),
+    transform 150ms cubic-bezier(0.25, 0.8, 0.25, 1),
+    border-left 150ms ease;
+}
+
+child:hover .item-text,
+child:selected .item-text {
+  text-shadow: 0 0 1px alpha(@accent, 0.1);
+}
+
+child,
+.item-box {
+  transition:
+    background 150ms cubic-bezier(0.25, 0.8, 0.25, 1),
+    border-left 150ms ease,
+    transform 150ms ease;
+}
+
+window .list child {
+  animation: slideIn 180ms ease-out forwards;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(-15px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
 }

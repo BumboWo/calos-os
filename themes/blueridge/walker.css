@@ -1,4 +1,4 @@
-@define-color selected-text #d4af37;  /* Temple gold - sacred */
+@define-color selected-text #6D8CAB;  /* Temple gold - sacred */
 @define-color text #e8e6e3;           /* Marble white */
 @define-color base #1c2128;           /* Temple stone shadow */
 @define-color surface #2c3640;        /* Deep slate shadow */
@@ -6,4 +6,4 @@
 @define-color muted #c4b5a0;          /* Papyrus */
 @define-color subtle #7ec8c8;         /* Turquoise patina */
 @define-color border #7ea67c;         /* Jade green */
-
+@define-color accent #4C6277;  /* Temple gold - sacred */
