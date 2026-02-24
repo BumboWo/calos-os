@@ -26,7 +26,7 @@ check-updates() {
 
 update-packages() {
   if ((repo + aur == 0)); then
-    notify-send 'No updates available' -i 'package-installed-updated'
+    gum spin --spinner "pulse" --spinner.foreground="111" --padding="1 0" --title "No updates found. Press any key to exit..." -- bash -c 'read -n 1 -s'
   else
     if ((repo > 0)); then
       printf '\n%bPackages pending updates:%b\n' "$BLU" "$RST"
@@ -45,8 +45,7 @@ update-packages() {
 
     notify-send 'Update Complete' -i 'package-install'
 
-    printf '\n%bUpdate Complete!%b\n' "$GRN" "$RST"
-    read -rs -n 1 -p 'Press any key to exit...'
+    gum spin --spinner "pulse" --spinner.foreground="111" --padding="4 0" --title "Update complete! Press any key to exit..." -- bash -c 'read -n 1 -s'
   fi
 }
 
