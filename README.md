@@ -10,7 +10,7 @@ CalOS is comprised of 3 main _parts_. The first is Arch Linux + Hyprland, with a
 
 tl;dr its dotfiles baby
 <p align="center">
-<img width="3440" height="1440" alt="image" src="https://github.com/user-attachments/assets/bb2a9d95-0ad6-422b-a9ef-7b96224bf1fd" />
+<img width="3440" height="1440" alt="image" src="https://github.com/user-attachments/assets/90e38647-dd65-407b-90ee-3639d1078d50" />
 </p>
 
 ### Who is calOS for?
