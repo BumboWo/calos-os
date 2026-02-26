@@ -1,0 +1,18 @@
+@define-color selected-text #89b4fa;
+@define-color text #cdd6f4;
+@define-color base #1e1e2e;
+@define-color border #cdd6f4;
+@define-color foreground #cdd6f4;
+@define-color background #1e1e2e;
+@define-color hover #9495c0;           
+@define-color accent #babbf1;   
+
+window {
+  background: transparent;
+  border-radius: 14px;
+}
+
+window .box-wrapper {
+  background: alpha(@background, 0.89);
+  color: @text;
+}
