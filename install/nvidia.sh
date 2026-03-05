@@ -2,7 +2,7 @@
 
 gum spin -s line --title="Checking GPU..." -- sleep 2
 
-GPU_INFO="$(lspci | grep -Ei 'nvidia|vmware')"
+GPU_INFO="$(lspci | grep -Ei 'nvidia|vmware|virtio')"
 
 # =========================
 # NVIDIA DETECTED
@@ -32,7 +32,7 @@ if echo "$GPU_INFO" | grep -qi nvidia; then
 
   sudo cp "$MKINITCPIO_CONF" "${MKINITCPIO_CONF}.backup"
   sudo sed -i -E 's/ nvidia_drm//g; s/ nvidia_uvm//g; s/ nvidia_modeset//g; s/ nvidia//g;' "$MKINITCPIO_CONF"
-  sudo sed -i -E "s/^(MODULES=\\()/\\1${NVIDIA_MODULES} /" "$MKINITCPIO_CONF"
+  sudo sed -i -E "s/^(MODULES=\()/\1${NVIDIA_MODULES} /" "$MKINITCPIO_CONF"
   sudo sed -i -E 's/  +/ /g' "$MKINITCPIO_CONF"
 
   sudo mkinitcpio -P
@@ -48,20 +48,47 @@ env = __GLX_VENDOR_LIBRARY_NAME,nvidia
 EOF
   fi
 
+
 # =========================
 # VMWARE DETECTED
 # =========================
 elif echo "$GPU_INFO" | grep -qi vmware; then
-  echo "VMware GPU detected. Skipping NVIDIA setup."
+  echo "VMware GPU detected. Installing VMware graphics stack..."
 
-  echo "Installing VMware graphics stack..."
-  sudo pacman -S --noconfirm --needed mesa mesa-utils vulkan-icd-loader xf86-video-vmware open-vm-tools
+  sudo pacman -S --noconfirm --needed \
+    mesa \
+    mesa-utils \
+    vulkan-icd-loader \
+    xf86-video-vmware \
+    open-vm-tools
 
   sudo systemctl enable vmtoolsd.service
+
+
+# =========================
+# VIRTIO / QEMU DETECTED
+# =========================
+elif echo "$GPU_INFO" | grep -qi virtio; then
+  echo "VirtIO GPU detected. Installing QEMU graphics stack..."
+
+  sudo pacman -S --noconfirm --needed \
+    mesa \
+    mesa-utils \
+    vulkan-icd-loader \
+    vulkan-tools \
+    libva-mesa-driver
+
 
 # =========================
 # UNKNOWN GPU
 # =========================
 else
-  echo "No NVIDIA or VMware GPU detected. Skipping GPU-specific setup."
+  echo "No NVIDIA, VMware, or VirtIO GPU detected."
+  echo "Installing generic Mesa graphics stack..."
+
+  sudo pacman -S --noconfirm --needed \
+    mesa \
+    mesa-utils \
+    vulkan-icd-loader \
+    vulkan-tools
 fi
