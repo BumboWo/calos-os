@@ -1,61 +1,42 @@
-# ==============================================================================
-# Hyprland NVIDIA Setup Script for Arch Linux
-# ==============================================================================
-# This script automates the installation and configuration of NVIDIA drivers
-# for use with Hyprland on Arch Linux, following the official Hyprland wiki.
-#
-# Author: https://github.com/Kn0ax
-#
-# ==============================================================================
-
 #!/bin/bash
 
-gum spin -s line --title="NVIDIA selected! Installing dependencies..." -- sleep 3
+gum spin -s line --title="Checking GPU..." -- sleep 2
 
-# Check for NVIDIA hardware anyway because implaying people are smart
-NVIDIA="$(lspci | grep -i 'nvidia')"
+GPU_INFO="$(lspci | grep -Ei 'nvidia|vmware')"
 
-if [ -n "$NVIDIA" ]; then
-  # Check which kernel is installed and set appropriate headers package
+# =========================
+# NVIDIA DETECTED
+# =========================
+if echo "$GPU_INFO" | grep -qi nvidia; then
+  echo "NVIDIA GPU detected. Installing NVIDIA drivers..."
+
   KERNEL_HEADERS="$(pacman -Qqs '^linux(-zen|-lts|-hardened)?$' | head -1)-headers"
 
-  if echo "$NVIDIA" | grep -qE "RTX [2-9][0-9]|GTX 16"; then
-    # Turing (16xx, 20xx), Ampere (30xx), Ada (40xx), and newer recommend the open-source kernel modules
+  if echo "$GPU_INFO" | grep -qE "RTX [2-9][0-9]|GTX 16"; then
     PACKAGES=(nvidia-open-dkms nvidia-utils lib32-nvidia-utils libva-nvidia-driver)
-  elif echo "$NVIDIA" | grep -qE "GTX 9|GTX 10|Quadro P"; then
-    # Pascal (10xx or Quadro Pxxx) and Maxwell (9xx) use legacy branch that can only be installed from AUR
+  elif echo "$GPU_INFO" | grep -qE "GTX 9|GTX 10|Quadro P"; then
     PACKAGES=(nvidia-580xx-dkms nvidia-580xx-utils lib32-nvidia-580xx-utils)
   fi
-  # Bail if no supported GPU
+
   if [ -z "${PACKAGES+x}" ]; then
-    echo " Sorry! No compatible driver for your NVIDIA GPU. See: https://wiki.archlinux.org/title/NVIDIA"
+    echo "Sorry! No compatible NVIDIA driver found."
     exit 0
   fi
 
   sudo pacman -S --noconfirm --needed "$KERNEL_HEADERS" "${PACKAGES[@]}"
 
-  # Configure modprobe for early KMS
   echo "options nvidia_drm modeset=1" | sudo tee /etc/modprobe.d/nvidia.conf >/dev/null
 
-  # Configure mkinitcpio for early loading
   MKINITCPIO_CONF="/etc/mkinitcpio.conf"
-
-  # Define modules
   NVIDIA_MODULES="nvidia nvidia_modeset nvidia_uvm nvidia_drm"
 
-  # Create backup
   sudo cp "$MKINITCPIO_CONF" "${MKINITCPIO_CONF}.backup"
-
-  # Remove any old nvidia modules to prevent duplicates
   sudo sed -i -E 's/ nvidia_drm//g; s/ nvidia_uvm//g; s/ nvidia_modeset//g; s/ nvidia//g;' "$MKINITCPIO_CONF"
-  # Add the new modules at the start of the MODULES array
   sudo sed -i -E "s/^(MODULES=\\()/\\1${NVIDIA_MODULES} /" "$MKINITCPIO_CONF"
-  # Clean up potential double spaces
   sudo sed -i -E 's/  +/ /g' "$MKINITCPIO_CONF"
 
   sudo mkinitcpio -P
 
-  # Add NVIDIA environment variables to hyprland.conf
   HYPRLAND_CONF="$HOME/.config/hypr/hyprland.conf"
   if [ -f "$HYPRLAND_CONF" ]; then
     cat >>"$HYPRLAND_CONF" <<'EOF'
@@ -66,4 +47,21 @@ env = LIBVA_DRIVER_NAME,nvidia
 env = __GLX_VENDOR_LIBRARY_NAME,nvidia
 EOF
   fi
+
+# =========================
+# VMWARE DETECTED
+# =========================
+elif echo "$GPU_INFO" | grep -qi vmware; then
+  echo "VMware GPU detected. Skipping NVIDIA setup."
+
+  echo "Installing VMware graphics stack..."
+  sudo pacman -S --noconfirm --needed mesa mesa-utils vulkan-icd-loader xf86-video-vmware open-vm-tools
+
+  sudo systemctl enable vmtoolsd.service
+
+# =========================
+# UNKNOWN GPU
+# =========================
+else
+  echo "No NVIDIA or VMware GPU detected. Skipping GPU-specific setup."
 fi
